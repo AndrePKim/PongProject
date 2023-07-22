@@ -1,5 +1,6 @@
 # PongProject
-Welcome to the Pong Game Project! This is a simple and fun project developed as a coding practice to recreate the classic Pong game with Java. Pong is one of the earliest arcade video games, and its simplicity makes it an excellent starting point for learning game development. The project is based on the tutorial by Bro Code (link: https://www.youtube.com/watch?v=oLirZqJFKPE).
+Welcome to the Pong Game Project! This is a simple and fun project developed as a coding practice to recreate the classic Pong game with Java. Pong is one of the earliest arcade video games, and its simplicity makes it an excellent starting point for learning game development. The project is based on the tutorial by Bro Code.
+Youtube Link: https://www.youtube.com/watch?v=oLirZqJFKPE
 ## How to Play
 - Player 1 (Blue Paddle) controls the left paddle using the 'W' key to move up and the 'S' key to move down.
 - Player 2 (Red Paddle) controls the right paddle using the up arrow key to move up and the down arrow key to move down.
