@@ -3,7 +3,7 @@ Welcome to the Pong Game Project! This is a simple and fun project developed as 
 Youtube Link: https://www.youtube.com/watch?v=oLirZqJFKPE
 ## Additions
 - Randomized ball speed increase/decrease
-- Player 2 replaced with a bot
+- Player 2 replaced with a Bot
 ## How to Play
 - Player (Blue Paddle) controls the left paddle using the 'W' key to move up and the 'S' key to move down.
 - The game will start after launching it, and the ball will move at a steady pace.
