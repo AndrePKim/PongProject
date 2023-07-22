@@ -15,7 +15,7 @@ public class GamePanel extends JPanel implements Runnable{
     Graphics graphics;
     Random random;
     Paddle paddle1;
-    Paddle paddle2;
+    PaddleBot paddle2;
     Ball ball;
     Score score;
 
@@ -35,8 +35,8 @@ public class GamePanel extends JPanel implements Runnable{
         ball = new Ball((GAME_WIDTH/2)-(BALL_DIAMETER/2),random.nextInt(GAME_HEIGHT-BALL_DIAMETER),BALL_DIAMETER,BALL_DIAMETER);
     }
     public void newPaddles() {
-        paddle1 = new Paddle(10,(GAME_HEIGHT/2)-(PADDLE_HEIGHT/2),PADDLE_WIDTH,PADDLE_HEIGHT,1);
-        paddle2 = new Paddle(GAME_WIDTH-PADDLE_WIDTH-10,(GAME_HEIGHT/2)-(PADDLE_HEIGHT/2),PADDLE_WIDTH,PADDLE_HEIGHT,2);
+        paddle1 = new Paddle(10,(GAME_HEIGHT/2)-(PADDLE_HEIGHT/2),PADDLE_WIDTH,PADDLE_HEIGHT);
+        paddle2 = new PaddleBot(GAME_WIDTH-PADDLE_WIDTH-10,(GAME_HEIGHT/2)-(PADDLE_HEIGHT/2),PADDLE_WIDTH,PADDLE_HEIGHT, ball);
     }
     public void paint(Graphics g) {
         image = createImage(getWidth(),getHeight());
@@ -56,6 +56,7 @@ public class GamePanel extends JPanel implements Runnable{
         ball.move();
     }
     public void checkCollision() {
+        random = new Random();
         //bounce ball off top & bottom window edges
         if (ball.y<=0) {
             ball.setYDirection(-ball.yVelocity);
@@ -66,22 +67,22 @@ public class GamePanel extends JPanel implements Runnable{
         //bounce ball off paddles
         if (ball.intersects(paddle1)) {
             ball.xVelocity = Math.abs(ball.xVelocity);
-            ball.xVelocity+=2;
+            ball.xVelocity += random.nextInt(2);
             if (ball.yVelocity>0) {
-                ball.yVelocity+=2;
+                ball.yVelocity += random.nextInt(3);
             } else {
-                ball.yVelocity-=2;
+                ball.yVelocity -= random.nextInt(3);
             }
             ball.setXDirection(ball.xVelocity);
             ball.setYDirection(ball.yVelocity);
         }
         if (ball.intersects(paddle2)) {
             ball.xVelocity = Math.abs(ball.xVelocity);
-            ball.xVelocity+=2;
+            ball.xVelocity += random.nextInt(3);
             if (ball.yVelocity>0) {
-                ball.yVelocity+=2;
+                ball.yVelocity += random.nextInt(3);
             } else {
-                ball.yVelocity-=2;
+                ball.yVelocity -= random.nextInt(3);
             }
             ball.setXDirection(-ball.xVelocity);
             ball.setYDirection(ball.yVelocity);
@@ -100,15 +101,24 @@ public class GamePanel extends JPanel implements Runnable{
             paddle2.y = GAME_HEIGHT-PADDLE_HEIGHT;
         }
         //give players a point and create new paddles and ball
-        if (ball.x<=0 && score.player1<1) {
+        if (ball.x<=0) {
             score.player2++;
             newPaddles();
             newBall();
         }
-        if (ball.x>=GAME_WIDTH-BALL_DIAMETER && score.player2<1) {
-            score.player2++;
+        if (ball.x>=GAME_WIDTH-BALL_DIAMETER) {
+            score.player1++;
             newPaddles();
             newBall();
+        }
+    }
+    public void botYMovement() {
+        if ((paddle2.y+PADDLE_HEIGHT/2)>ball.y+BALL_DIAMETER/2) {
+            paddle2.setYDirection(-6);
+            paddle2.move();
+        } else if ((paddle2.y+PADDLE_HEIGHT/2)<ball.y+BALL_DIAMETER/2) {
+            paddle2.setYDirection(6);
+            paddle2.move();
         }
     }
     public void run() {
@@ -125,6 +135,7 @@ public class GamePanel extends JPanel implements Runnable{
                 move();
                 checkCollision();
                 repaint();
+                botYMovement();
                 delta--;
             }
         }
@@ -132,11 +143,9 @@ public class GamePanel extends JPanel implements Runnable{
     public class AL extends KeyAdapter {
         public void keyPressed(KeyEvent e) {
             paddle1.keyPressed(e);
-            paddle2.keyPressed(e);
         }
         public void keyReleased(KeyEvent e) {
             paddle1.keyReleased(e);
-            paddle2.keyReleased(e);
         }
     }
 }
